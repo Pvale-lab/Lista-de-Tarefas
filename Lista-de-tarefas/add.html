@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Tarefa</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body id="page-add">
+
+    <div class="app-container">
+        <header class="page-header">
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Voltar</a>
+            <h1><i class="fas fa-plus-circle"></i> Nova Tarefa</h1>
+        </header>
+
+        <main>
+            <form id="task-form">
+                <div class="form-control">
+                    <label for="task-title">Título</label>
+                    <input type="text" id="task-title" placeholder="Título da tarefa..." required>
+                </div>
+                <div class="form-control">
+                    <label for="task-description">Descrição</label>
+                    <textarea id="task-description" placeholder="Adicione uma descrição..."></textarea>
+                </div>
+                <div class="form-control">
+                    <label for="task-priority">Prioridade</label>
+                    <select id="task-priority">
+                        <option value="baixa">Baixa</option>
+                        <option value="media" selected>Média</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Salvar Tarefa
+                </button>
+            </form>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+/* ... (Todo o CSS anterior de :root, *, body, app-container, etc. permanece o mesmo) ... */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --primary-yellow: #ffc700;
+    --dark-yellow: #e6b300;
+    --background-color: #f8f9fa;
+    --surface-color: #ffffff;
+    --text-primary: #343a40;
+    --text-secondary: #6c757d;
+    --border-color: #dee2e6;
+    --priority-low: #28a745;
+    --priority-medium: #fd7e14;
+    --priority-high: #dc3545;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alterado para start */
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.app-container {
+    max-width: 680px;
+    width: 100%;
+    background: var(--surface-color);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    margin-top: 20px; /* Adicionado espaço no topo */
+}
+
+/* --- ESTILOS DE CABEÇALHO --- */
+header h1 { text-align: center; font-weight: 600; margin-bottom: 30px; color: var(--text-primary); }
+header h1 .fa-check-double { color: var(--primary-yellow); margin-right: 10px; }
+
+.page-header { display: flex; align-items: center; position: relative; justify-content: center; margin-bottom: 30px; }
+.page-header h1 { margin-bottom: 0; }
+.back-link { position: absolute; left: 0; text-decoration: none; color: var(--text-secondary); font-size: 1rem; transition: color 0.3s; }
+.back-link:hover { color: var(--text-primary); }
+
+/* --- CONTROLES PRINCIPAIS (INDEX) --- */
+.main-controls { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; align-items: center; }
+.search-container { flex-grow: 1; position: relative; }
+.search-container .fa-search { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+#search-input { width: 100%; padding: 15px 15px 15px 45px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; }
+#search-input:focus { outline: none; border-color: var(--primary-yellow); box-shadow: 0 0 0 3px rgba(255, 199, 0, 0.25); }
+.btn-add-new { display: inline-block; text-decoration: none; padding: 15px 20px; background: linear-gradient(45deg, var(--primary-yellow), var(--dark-yellow)); color: var(--text-primary); border-radius: 8px; font-weight: 600; text-align: center; transition: transform 0.2s, box-shadow 0.3s; }
+.btn-add-new:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(255, 199, 0, 0.3); }
+
+/* --- FORMULÁRIOS (ADD/EDIT) --- */
+#task-form { display: flex; flex-direction: column; gap: 20px; }
+.form-control { display: flex; flex-direction: column; }
+.form-control label { margin-bottom: 8px; font-weight: 600; color: var(--text-secondary); }
+.form-control input, .form-control textarea, .form-control select { width: 100%; padding: 15px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; font-family: 'Poppins', sans-serif; }
+.form-control input:focus, .form-control textarea:focus, .form-control select:focus { outline: none; border-color: var(--primary-yellow); box-shadow: 0 0 0 3px rgba(255, 199, 0, 0.25); }
+.btn-submit { padding: 15px; background: linear-gradient(45deg, var(--primary-yellow), var(--dark-yellow)); color: var(--text-primary); border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: transform 0.2s, box-shadow 0.3s; }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(255, 199, 0, 0.3); }
+
+/* --- LISTA DE TAREFAS (INDEX) --- */
+.filter-controls { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; background: #f1f3f5; padding: 8px; border-radius: 50px; }
+.filter-btn { padding: 8px 20px; border: none; background-color: transparent; color: var(--text-secondary); border-radius: 30px; cursor: pointer; font-weight: 600; transition: background-color 0.3s, color 0.3s; }
+.filter-btn.active { background-color: var(--surface-color); color: var(--primary-yellow); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
+
+#task-list { list-style: none; max-height: 400px; overflow-y: auto; padding-right: 10px; }
+.task-item { display: flex; align-items: center; padding: 15px; background-color: var(--surface-color); border-left: 5px solid var(--border-color); border-radius: 8px; margin-bottom: 12px; transition: all 0.3s ease; animation: fadeIn 0.4s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.task-item:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.task-item.priority-baixa { border-left-color: var(--priority-low); }
+.task-item.priority-media { border-left-color: var(--priority-medium); }
+.task-item.priority-alta { border-left-color: var(--priority-high); }
+
+.task-item.completed { background-color: #f1f3f5; border-left-color: var(--text-secondary); }
+.task-item.completed .task-content h3 { text-decoration: line-through; color: var(--text-secondary); }
+.task-item.completed .priority-badge { background-color: var(--text-secondary) !important; color: white; }
+
+.task-content { flex-grow: 1; margin-right: 15px; }
+.task-content-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.task-content h3 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+.task-content p { margin: 4px 0 0; color: var(--text-secondary); font-size: 0.9rem; }
+.priority-badge { padding: 3px 8px; border-radius: 20px; font-size: 0.75rem; color: white; font-weight: 600; text-transform: capitalize; }
+.priority-badge.baixa { background-color: var(--priority-low); }
+.priority-badge.media { background-color: var(--priority-medium); }
+.priority-badge.alta { background-color: var(--priority-high); }
+
+.task-actions { display: flex; gap: 10px; }
+.task-actions a, .task-actions button { border: none; background: none; cursor: pointer; font-size: 1.2rem; color: var(--text-secondary); text-decoration: none; transition: transform 0.2s, color 0.3s; }
+.task-actions a:hover, .task-actions button:hover { transform: scale(1.2); color: var(--text-primary); }
+
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+#task-list::-webkit-scrollbar { width: 6px; } #task-list::-webkit-scrollbar-track { background: #f1f1f1; } #task-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 6px; } #task-list::-webkit-scrollbar-thumb:hover { background: #aaa; }
