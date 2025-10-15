@@ -1,185 +1,214 @@
+//  Espera Carregar
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- FUNÇÕES GLOBAIS (COMPARTILHADAS ENTRE PÁGINAS) ---
-    
-    const getTasks = () => {
-        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks.forEach(task => {
-            if (!task.priority) {
-                task.priority = 'media';
-            }
-        });
-        return tasks;
+    // Função para buscar as tarefas salvas no navegador.
+    const obterTarefas = () => {
+        const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+        // Retorna o array de tarefas.
+        return tarefas;
     };
 
-    const saveTasks = (tasks) => {
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+    // Salvar o array de tarefas .
+    const salvarTarefas = (tarefas) => {
+        localStorage.setItem('tarefas', JSON.stringify(tarefas));
     };
 
 
-    // --- LÓGICA DA PÁGINA INDEX (LISTAGEM) ---
+    // --- LISTAGEM ---
 
-    const initIndexPage = () => {
-        const taskList = document.getElementById('task-list');
-        const filterControls = document.getElementById('filter-controls');
-        const searchInput = document.getElementById('search-input');
-        let currentFilter = 'all';
-        let searchTerm = '';
+    const inicializarPaginaPrincipal = () => {
+        // Pega os elementos do HTML pelos IDs.
+        const listaTarefas = document.getElementById('lista-tarefas');
+        const controlesFiltro = document.getElementById('controles-filtro');
+        const inputBusca = document.getElementById('input-busca');
+        
+        // Inicia
+        let filtroAtual = 'todas';
+        let termoBusca = '';
 
-        const renderTasks = () => {
-            taskList.innerHTML = '';
-            let tasks = getTasks();
+        const renderizarTarefas = () => {
+            // Limpa a lista de tarefas atual para não duplicar itens.
+            listaTarefas.innerHTML = '';
+            // Pega a lista de tarefas atualizada.
+            let tarefas = obterTarefas();
 
-            const statusFilteredTasks = tasks.filter(task => {
-                if (currentFilter === 'pending') return !task.completed;
-                if (currentFilter === 'completed') return task.completed;
-                return true;
+            // Primeiro, filtra com base no status .
+            const tarefasFiltradasPorStatus = tarefas.filter(tarefa => {
+                if (filtroAtual === 'pendentes') return !tarefa.completed;
+                if (filtroAtual === 'concluidas') return tarefa.completed;
+                return true; // Se o filtro for 'todas', retorna todas as tarefas.
             });
 
-            const searchFilteredTasks = statusFilteredTasks.filter(task => 
-                task.title.toLowerCase().includes(searchTerm) || 
-                (task.description && task.description.toLowerCase().includes(searchTerm))
+            // Em seguida, filtra o resultado anterior com base no termo de busca.
+            const tarefasFiltradasFinais = tarefasFiltradasPorStatus.filter(tarefa => 
+                tarefa.title.toLowerCase().includes(termoBusca) || 
+                (tarefa.description && tarefa.description.toLowerCase().includes(termoBusca))
             );
 
-            if (searchFilteredTasks.length === 0) {
-                taskList.innerHTML = '<p style="text-align: center; color: #6c757d;">Nenhuma tarefa encontrada.</p>';
-                return;
+            // Se, após todos os filtros, o array de tarefas estiver vazio...
+            if (tarefasFiltradasFinais.length === 0) {
+                // Mostra uma mensagem na tela.
+                listaTarefas.innerHTML = '<p style="text-align: center; color: #6c757d;">Nenhuma tarefa encontrada.</p>';
+                return; // Encerra a função.
             }
 
-            searchFilteredTasks.forEach(task => {
-                const li = document.createElement('li');
-                li.className = `task-item ${task.completed ? 'completed' : ''} priority-${task.priority}`;
-                li.dataset.id = task.id;
+            // Para cada tarefa que passou pelos filtros...
+            tarefasFiltradasFinais.forEach(tarefa => {
+                // Cria um novo elemento de lista <li>.
+                const itemLista = document.createElement('li');
+                // Adiciona as novas classes CSS em português.
+                itemLista.className = `item-tarefa ${tarefa.completed ? 'concluido' : ''} prioridade-${tarefa.priority}`;
+                // Adiciona um 'data attribute' com o ID da tarefa para facilitar encontrá-la depois.
+                itemLista.dataset.id = tarefa.id;
 
-                // **** INÍCIO DA ALTERAÇÃO 1 ****
-                // Define os atributos do botão 'completar' com base no status da tarefa
-                const completeBtnDisabled = task.completed ? 'disabled' : '';
-                const completeBtnTitle = task.completed ? 'Tarefa Concluída' : 'Completar Tarefa';
+                // Define se o botão 'completar' deve estar desabilitado e qual texto de ajuda ('title') deve ter.
+                const btnConcluirDesabilitado = tarefa.completed ? 'disabled' : '';
+                const btnConcluirTitulo = tarefa.completed ? 'Tarefa Concluída' : 'Completar Tarefa';
 
-                li.innerHTML = `
-                    <div class="task-content">
-                        <div class="task-content-header">
-                            <h3>${task.title}</h3>
-                            <span class="priority-badge ${task.priority}">${task.priority}</span>
+                // Constrói o HTML do item com as novas classes em português.
+                itemLista.innerHTML = `
+                    <div class="conteudo-tarefa">
+                        <div class="cabecalho-conteudo-tarefa">
+                            <h3>${tarefa.title}</h3>
+                            <span class="etiqueta-prioridade ${tarefa.priority}">${tarefa.priority}</span>
                         </div>
-                        <p>${task.description || ''}</p>
+                        <p>${tarefa.description || ''}</p>
                     </div>
-                    <div class="task-actions">
-                        <button class="complete-btn" title="${completeBtnTitle}" ${completeBtnDisabled}>
+                    <div class="acoes-tarefa">
+                        <button class="btn-completar" title="${btnConcluirTitulo}" ${btnConcluirDesabilitado}>
                             <i class="fas fa-check"></i>
                         </button>
-                        <a href="edit.html?id=${task.id}" class="edit-btn" title="Editar">
+                        <a href="edit.html?id=${tarefa.id}" class="btn-editar" title="Editar">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <button class="delete-btn" title="Remover">
+                        <button class="btn-deletar" title="Remover">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </div>
                 `;
-                // **** FIM DA ALTERAÇÃO 1 ****
-                taskList.appendChild(li);
+                // Adiciona o novo item <li> à lista <ul> na página.
+                listaTarefas.appendChild(itemLista);
             });
         };
         
-        taskList.addEventListener('click', (e) => {
-            const taskItem = e.target.closest('.task-item');
-            if (!taskItem) return;
+        // Adiciona um "ouvinte" de eventos de clique na lista de tarefas.
+        listaTarefas.addEventListener('click', (e) => {
+            // Procura pelo elemento com a nova classe '.item-tarefa'.
+            const itemTarefa = e.target.closest('.item-tarefa');
+            if (!itemTarefa) return;
 
-            const taskId = Number(taskItem.dataset.id);
-            let tasks = getTasks();
-            let taskChanged = false;
+            const idDaTarefa = Number(itemTarefa.dataset.id);
+            let tarefas = obterTarefas();
+            let tarefaAlterada = false;
 
-            // **** INÍCIO DA ALTERAÇÃO 2 ****
-            // Ação de Completar Tarefa (sem reativar)
-            if (e.target.closest('.complete-btn')) {
-                const task = tasks.find(t => t.id === taskId);
-                // A ação só ocorre se a tarefa não estiver concluída
-                if (task && !task.completed) {
-                    task.completed = true;
-                    taskChanged = true;
+            // Verifica o clique no botão com a nova classe '.btn-completar'.
+            if (e.target.closest('.btn-completar')) {
+                const tarefa = tarefas.find(t => t.id === idDaTarefa);
+                if (tarefa && !tarefa.completed) {
+                    tarefa.completed = true;
+                    tarefaAlterada = true;
                 }
             }
-            // **** FIM DA ALTERAÇÃO 2 ****
 
-            // Ação de Deletar Tarefa
-            if (e.target.closest('.delete-btn')) {
-                const task = tasks.find(t => t.id === taskId);
-                if (task && confirm(`Tem certeza que deseja remover a tarefa "${task.title}"?`)) {
-                    tasks = tasks.filter(t => t.id !== taskId);
-                    taskChanged = true;
+            // Verifica o clique no botão com a nova classe '.btn-deletar'.
+            if (e.target.closest('.btn-deletar')) {
+                const tarefa = tarefas.find(t => t.id === idDaTarefa);
+                if (tarefa && confirm(`Tem certeza que deseja remover a tarefa "${tarefa.title}"?`)) {
+                    tarefas = tarefas.filter(t => t.id !== idDaTarefa);
+                    tarefaAlterada = true;
                 }
             }
             
-            if (taskChanged) {
-                saveTasks(tasks);
-                renderTasks();
+            // Se alguma tarefa foi alterada, salva e redesenha a lista.
+            if (tarefaAlterada) {
+                salvarTarefas(tarefas);
+                renderizarTarefas();
             }
         });
 
-        filterControls.addEventListener('click', (e) => {
-            if (!e.target.matches('.filter-btn')) return;
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            e.target.classList.add('active');
-            currentFilter = e.target.dataset.filter;
-            renderTasks();
+        // Adiciona um ouvinte de clique nos controles de filtro.
+        controlesFiltro.addEventListener('click', (e) => {
+            // Verifica se o clique foi em um '.btn-filtro'.
+            if (!e.target.matches('.btn-filtro')) return;
+            // Remove a classe '.ativo' de todos os botões.
+            document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('ativo'));
+            // Adiciona a classe '.ativo' ao botão clicado.
+            e.target.classList.add('ativo');
+            // Atualiza o filtro com o valor do 'data-filtro'.
+            filtroAtual = e.target.dataset.filtro;
+            renderizarTarefas();
         });
 
-        searchInput.addEventListener('input', (e) => {
-            searchTerm = e.target.value.toLowerCase();
-            renderTasks();
+        // Adiciona um ouvinte de evento 'input' no campo de busca.
+        inputBusca.addEventListener('input', (e) => {
+            termoBusca = e.target.value.toLowerCase();
+            renderizarTarefas();
         });
 
-        renderTasks();
+        // Chama a função para renderizar as tarefas assim que a página carrega.
+        renderizarTarefas();
     };
 
 
-    // --- LÓGICA DA PÁGINA DE ADICIONAR TAREFA --- (Sem alterações aqui)
-    const initAddPage = () => {
-        const taskForm = document.getElementById('task-form');
-        taskForm.addEventListener('submit', (e) => {
+    // --- LÓGICA DA PÁGINA DE ADICIONAR TAREFA --- 
+    const inicializarPaginaAdicionar = () => {
+        // Pega o formulário pelo novo ID.
+        const formularioTarefa = document.getElementById('formulario-tarefa');
+        formularioTarefa.addEventListener('submit', (e) => {
             e.preventDefault();
-            const newTask = { id: Date.now(), title: document.getElementById('task-title').value.trim(), description: document.getElementById('task-description').value.trim(), priority: document.getElementById('task-priority').value, completed: false };
-            const tasks = getTasks();
-            tasks.unshift(newTask);
-            saveTasks(tasks);
-            window.location.href = 'index.html';
+            // Pega os valores dos campos pelos novos IDs.
+            const novaTarefa = { 
+                id: Date.now(), 
+                title: document.getElementById('tarefa-titulo').value.trim(), 
+                description: document.getElementById('tarefa-descricao').value.trim(), 
+                priority: document.getElementById('tarefa-prioridade').value, 
+                completed: false 
+            };
+            const tarefas = obterTarefas();
+            tarefas.unshift(novaTarefa); // Adiciona a nova tarefa no início da lista.
+            salvarTarefas(tarefas);
+            window.location.href = 'index.html'; // Redireciona para a página inicial.
         });
     };
 
 
-    // --- LÓGICA DA PÁGINA DE EDITAR TAREFA --- (Sem alterações aqui)
-    const initEditPage = () => {
-        const taskForm = document.getElementById('task-form');
-        const urlParams = new URLSearchParams(window.location.search);
-        const taskId = Number(urlParams.get('id'));
-        const tasks = getTasks();
-        const taskToEdit = tasks.find(t => t.id === taskId);
+    // --- LÓGICA DA PÁGINA DE EDITAR TAREFA --- 
+    const inicializarPaginaEditar = () => {
+        // Pega o formulário pelo novo ID.
+        const formularioTarefa = document.getElementById('formulario-tarefa');
+        const parametrosUrl = new URLSearchParams(window.location.search);
+        const idDaTarefa = Number(parametrosUrl.get('id'));
+        const tarefas = obterTarefas();
+        const tarefaParaEditar = tarefas.find(t => t.id === idDaTarefa);
 
-        if (!taskToEdit) {
+        if (!tarefaParaEditar) {
             alert('Tarefa não encontrada!');
             window.location.href = 'index.html';
             return;
         }
 
-        document.getElementById('task-id').value = taskToEdit.id;
-        document.getElementById('task-title').value = taskToEdit.title;
-        document.getElementById('task-description').value = taskToEdit.description;
-        document.getElementById('task-priority').value = taskToEdit.priority;
+        // Preenche os campos do formulário usando os novos IDs.
+        document.getElementById('tarefa-id').value = tarefaParaEditar.id;
+        document.getElementById('tarefa-titulo').value = tarefaParaEditar.title;
+        document.getElementById('tarefa-descricao').value = tarefaParaEditar.description;
+        document.getElementById('tarefa-prioridade').value = tarefaParaEditar.priority;
 
-        taskForm.addEventListener('submit', (e) => {
+        formularioTarefa.addEventListener('submit', (e) => {
             e.preventDefault();
-            taskToEdit.title = document.getElementById('task-title').value.trim();
-            taskToEdit.description = document.getElementById('task-description').value.trim();
-            taskToEdit.priority = document.getElementById('task-priority').value;
-            saveTasks(tasks);
+            // Atualiza o objeto da tarefa com os dados dos campos (usando os novos IDs).
+            tarefaParaEditar.title = document.getElementById('tarefa-titulo').value.trim();
+            tarefaParaEditar.description = document.getElementById('tarefa-descricao').value.trim();
+            tarefaParaEditar.priority = document.getElementById('tarefa-prioridade').value;
+            salvarTarefas(tarefas);
             window.location.href = 'index.html';
         });
     };
 
 
     // --- INICIALIZADOR ---
-    const page = document.body.id;
-    if (page === 'page-index') { initIndexPage(); } 
-    else if (page === 'page-add') { initAddPage(); } 
-    else if (page === 'page-edit') { initEditPage(); }
+    // Este bloco verifica qual página está aberta e chama a função de inicialização correta.
+    const paginaAtual = document.body.id;
+    if (paginaAtual === 'pagina-inicial') { inicializarPaginaPrincipal(); } 
+    else if (paginaAtual === 'pagina-adicionar') { inicializarPaginaAdicionar(); } 
+    else if (paginaAtual === 'pagina-editar') { inicializarPaginaEditar(); }
 });

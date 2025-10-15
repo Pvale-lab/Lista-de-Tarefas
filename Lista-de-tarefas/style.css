@@ -1,52 +1,61 @@
-/* ==========================================================================
-   1. Imports e Configurações Globais
-   ========================================================================== */
+/* 1. Imports e Configurações Globais */
 
+/* Importa a fonte 'Poppins' do Google Fonts para ser usada no projeto. */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 /**
  * Variáveis de Cor (Tema)
+ * Usar :root para declarar variáveis permite reutilizar valores em todo o CSS.
+ * Mudar uma cor aqui atualiza o site inteiro.
  */
 :root {
   --primary-yellow: #ffc700;
   --dark-yellow: #e6b300;
   --background-color: #f8f9fa;
-  --surface-color: #ffffff;
-  --text-primary: #343a40;
-  --text-secondary: #6c757d;
+  --surface-color: #ffffff;    /* Cor de superfícies como cards e inputs */
+  --text-primary: #343a40;      /* Cor principal para textos */
+  --text-secondary: #6c757d;    /* Cor para textos secundários */
   --border-color: #dee2e6;
-  --priority-low: #28a745;
-  --priority-medium: #fd7e14;
-  --priority-high: #dc3545;
-  --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --priority-low: #28a745;      /* Verde para prioridade baixa */
+  --priority-medium: #fd7e14;   /* Laranja para prioridade média */
+  --priority-high: #dc3545;     /* Vermelho para prioridade alta */
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Sombra suave padrão */
 }
 
 /**
  * Reset Global e Estilos Base
+ * O seletor universal (*) aplica estas regras a TODOS os elementos.
  */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0;  /* Remove margens externas padrão */
+  padding: 0; /* Remove preenchimentos internos padrão */
+  box-sizing: border-box; /* Garante que padding e borda não aumentem o tamanho final do elemento */
 }
 
+/* Estilos aplicados ao corpo <body> da página. */
 body {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  padding: 20px;
-  font-family: 'Poppins', sans-serif;
-  color: var(--text-primary);
-  background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-primary);
+    background-color: var(--background-color);
+
+    /* --- ESTILOS PARA A IMAGEM DE FUNDO --- */
+    background-image: url('background-motivation.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
-/* ==========================================================================
-   2. Layout Principal
-   ========================================================================== */
+/* 2. Layout Principal */
 
-.app-container {
-  max-width: 680px;
+/* MUDANÇA: de ".app-container" para ".container-aplicativo" */
+.container-aplicativo {
+  max-width: 620px;
   width: 100%;
   margin-top: 20px;
   padding: 40px;
@@ -55,9 +64,7 @@ body {
   box-shadow: var(--shadow);
 }
 
-/* ==========================================================================
-   3. Componentes
-   ========================================================================== */
+/* 3. Componentes */
 
 /**
  * Cabeçalhos
@@ -65,7 +72,6 @@ body {
 header h1 {
   margin-bottom: 30px;
   font-weight: 600;
-  color: var(--text-primary);
   text-align: center;
 }
 
@@ -74,7 +80,8 @@ header h1 .fa-check-double {
   color: var(--primary-yellow);
 }
 
-.page-header {
+/* MUDANÇA: de ".page-header" para ".cabecalho-pagina" */
+.cabecalho-pagina {
   position: relative;
   display: flex;
   justify-content: center;
@@ -82,42 +89,45 @@ header h1 .fa-check-double {
   margin-bottom: 30px;
 }
 
-.page-header h1 {
+.cabecalho-pagina h1 {
   margin-bottom: 0;
 }
 
-.back-link {
+/* MUDANÇA: de ".back-link" para ".link-voltar" */
+.link-voltar {
   position: absolute;
   left: 0;
   font-size: 1rem;
   color: var(--text-secondary);
-  text-decoration: none;
+  text-decoration: none; /* Remove sublinhado */
   transition: color 0.3s;
 }
 
 /**
- * Formulários e Controles
+ * Formulários
  */
-#task-form {
+/* MUDANÇA: de "#task-form" para "#formulario-tarefa" */
+#formulario-tarefa {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.form-control {
+/* MUDANÇA: de ".form-control" para ".controle-form" */
+.controle-form {
   display: flex;
   flex-direction: column;
 }
 
-.form-control label {
+.controle-form label {
   margin-bottom: 8px;
   font-weight: 600;
   color: var(--text-secondary);
 }
 
-.form-control input,
-.form-control textarea,
-.form-control select {
+.controle-form input,
+.controle-form textarea,
+.controle-form select {
   width: 100%;
   padding: 15px;
   font-family: 'Poppins', sans-serif;
@@ -129,8 +139,9 @@ header h1 .fa-check-double {
 /**
  * Botões
  */
-.btn-add-new,
-.btn-submit {
+/* MUDANÇA: de ".btn-add-new, .btn-submit" para ".btn-adicionar-novo, .btn-enviar" */
+.btn-adicionar-novo,
+.btn-enviar {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -139,7 +150,6 @@ header h1 .fa-check-double {
   font-weight: 600;
   font-size: 1rem;
   color: var(--text-primary);
-  text-align: center;
   text-decoration: none;
   background: linear-gradient(45deg, var(--primary-yellow), var(--dark-yellow));
   border: none;
@@ -151,7 +161,8 @@ header h1 .fa-check-double {
 /**
  * Controles da Página Principal (Busca e Filtro)
  */
-.main-controls {
+/* MUDANÇA: de ".main-controls" para ".controles-principais" */
+.controles-principais {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -159,12 +170,13 @@ header h1 .fa-check-double {
   margin-bottom: 30px;
 }
 
-.search-container {
+/* MUDANÇA: de ".search-container" para ".container-busca" */
+.container-busca {
   position: relative;
   flex-grow: 1;
 }
 
-.search-container .fa-search {
+.container-busca .fa-search {
   position: absolute;
   top: 50%;
   left: 15px;
@@ -172,7 +184,8 @@ header h1 .fa-check-double {
   transform: translateY(-50%);
 }
 
-#search-input {
+/* MUDANÇA: de "#search-input" para "#input-busca" */
+#input-busca {
   width: 100%;
   padding: 15px 15px 15px 45px;
   font-size: 1rem;
@@ -180,7 +193,8 @@ header h1 .fa-check-double {
   border-radius: 8px;
 }
 
-.filter-controls {
+/* MUDANÇA: de ".filter-controls" para ".controles-filtro" */
+.controles-filtro {
   display: flex;
   justify-content: center;
   gap: 10px;
@@ -190,7 +204,8 @@ header h1 .fa-check-double {
   border-radius: 50px;
 }
 
-.filter-btn {
+/* MUDANÇA: de ".filter-btn" para ".btn-filtro" */
+.btn-filtro {
   padding: 8px 20px;
   font-weight: 600;
   color: var(--text-secondary);
@@ -204,14 +219,16 @@ header h1 .fa-check-double {
 /**
  * Lista de Tarefas
  */
-#task-list {
+/* MUDANÇA: de "#task-list" para "#lista-tarefas" */
+#lista-tarefas {
   max-height: 400px;
   padding-right: 10px;
   list-style: none;
   overflow-y: auto;
 }
 
-.task-item {
+/* MUDANÇA: criei a classe ".item-tarefa" para ser consistente */
+.item-tarefa {
   display: flex;
   align-items: center;
   margin-bottom: 12px;
@@ -224,36 +241,39 @@ header h1 .fa-check-double {
   transition: all 0.3s ease;
 }
 
-.task-content {
+/* MUDANÇA: criei a classe ".conteudo-tarefa" */
+.conteudo-tarefa {
   flex-grow: 1;
   margin-right: 15px;
 }
 
-.task-content-header {
+/* MUDANÇA: criei a classe ".cabecalho-conteudo-tarefa" */
+.cabecalho-conteudo-tarefa {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 4px;
 }
 
-.task-content h3 {
+.conteudo-tarefa h3 {
   font-size: 1.1rem;
   font-weight: 600;
 }
 
-.task-content p {
+.conteudo-tarefa p {
   margin-top: 4px;
   font-size: 0.9rem;
   color: var(--text-secondary);
 }
 
-.task-actions {
+/* MUDANÇA: criei a classe ".acoes-tarefa" */
+.acoes-tarefa {
   display: flex;
   gap: 10px;
 }
 
-.task-actions a,
-.task-actions button {
+.acoes-tarefa a,
+.acoes-tarefa button {
   font-size: 1.2rem;
   color: var(--text-secondary);
   text-decoration: none;
@@ -264,9 +284,10 @@ header h1 .fa-check-double {
 }
 
 /**
- * Badges de Prioridade
+ * Etiquetas de Prioridade
  */
-.priority-badge {
+/* MUDANÇA: criei a classe ".etiqueta-prioridade" */
+.etiqueta-prioridade {
   padding: 3px 8px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -275,84 +296,83 @@ header h1 .fa-check-double {
   border-radius: 20px;
 }
 
-.priority-badge.baixa { background-color: var(--priority-low); }
-.priority-badge.media { background-color: var(--priority-medium); }
-.priority-badge.alta { background-color: var(--priority-high); }
+.etiqueta-prioridade.baixa { background-color: var(--priority-low); }
+.etiqueta-prioridade.media { background-color: var(--priority-medium); }
+.etiqueta-prioridade.alta { background-color: var(--priority-high); }
 
-.task-item.priority-baixa { border-left-color: var(--priority-low); }
-.task-item.priority-media { border-left-color: var(--priority-medium); }
-.task-item.priority-alta { border-left-color: var(--priority-high); }
+/* Aplica a cor da prioridade na borda esquerda do item */
+.item-tarefa.prioridade-baixa { border-left-color: var(--priority-low); }
+.item-tarefa.prioridade-media { border-left-color: var(--priority-medium); }
+.item-tarefa.prioridade-alta { border-left-color: var(--priority-high); }
 
 
-/* ==========================================================================
-   4. Estados (Hover, Focus, Active, Completed, Disabled)
-   ========================================================================== */
+/* 4. Estados (Hover, Focus, Ativo, Concluído, Desabilitado) */
 
-.back-link:hover {
+.link-voltar:hover {
   color: var(--text-primary);
 }
 
-#search-input:focus,
-.form-control input:focus,
-.form-control textarea:focus,
-.form-control select:focus {
+#input-busca:focus,
+.controle-form input:focus,
+.controle-form textarea:focus,
+.controle-form select:focus {
   border-color: var(--primary-yellow);
   box-shadow: 0 0 0 3px rgba(255, 199, 0, 0.25);
   outline: none;
 }
 
-.btn-add-new:hover,
-.btn-submit:hover {
+.btn-adicionar-novo:hover,
+.btn-enviar:hover {
   box-shadow: 0 6px 12px rgba(255, 199, 0, 0.3);
   transform: translateY(-2px);
 }
 
-.filter-btn.active {
+/* MUDANÇA: de ".active" para ".ativo" */
+.btn-filtro.ativo {
   color: var(--primary-yellow);
   background-color: var(--surface-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.task-item:hover {
+.item-tarefa:hover {
   box-shadow: var(--shadow);
   transform: translateY(-2px);
 }
 
-.task-item.completed {
+/* MUDANÇA: criei a classe ".concluido" */
+.item-tarefa.concluido {
   background-color: #f1f3f5;
   border-left-color: var(--text-secondary);
 }
 
-.task-item.completed .task-content h3 {
+.item-tarefa.concluido .conteudo-tarefa h3 {
   color: var(--text-secondary);
   text-decoration: line-through;
 }
 
-.task-item.completed .priority-badge {
+.item-tarefa.concluido .etiqueta-prioridade {
   color: white;
   background-color: var(--text-secondary) !important;
 }
 
-.task-actions a:hover,
-.task-actions button:hover {
+.acoes-tarefa a:hover,
+.acoes-tarefa button:hover {
   color: var(--text-primary);
   transform: scale(1.2);
 }
 
-.task-actions button:disabled {
+.acoes-tarefa button:disabled {
   color: var(--text-secondary);
   opacity: 0.4;
   cursor: not-allowed;
 }
 
-.task-actions button:disabled:hover {
+.acoes-tarefa button:disabled:hover {
   color: var(--text-secondary);
   transform: none;
 }
 
-/* ==========================================================================
-   5. Animações e Elementos do Navegador
-   ========================================================================== */
+/* 5. Animações e Elementos do Navegador */
 
 @keyframes fadeIn {
   from {
@@ -365,19 +385,17 @@ header h1 .fa-check-double {
   }
 }
 
-#task-list::-webkit-scrollbar {
+/* Estilização da barra de rolagem */
+#lista-tarefas::-webkit-scrollbar {
   width: 6px;
 }
-
-#task-list::-webkit-scrollbar-track {
+#lista-tarefas::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
-
-#task-list::-webkit-scrollbar-thumb {
+#lista-tarefas::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 6px;
 }
-
-#task-list::-webkit-scrollbar-thumb:hover {
+#lista-tarefas::-webkit-scrollbar-thumb:hover {
   background: #aaa;
 }

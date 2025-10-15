@@ -7,32 +7,30 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body id="page-index">
-
-    <div class="app-container">
+<body id="pagina-inicial"> <div class="container-aplicativo">
         <header>
             <h1><i class="fas fa-check-double"></i> Suas Tarefas</h1>
         </header>
 
         <main>
-            <div class="main-controls">
-                <div class="search-container">
+            <div class="controles-principais">
+                <div class="container-busca">
                     <i class="fas fa-search"></i>
-                    <input type="search" id="search-input" placeholder="Buscar por título ou descrição...">
+                    <input type="search" id="input-busca" placeholder="Buscar por título ou descrição...">
                 </div>
-                <a href="add.html" class="btn-add-new">
+                <a href="add.html" class="btn-adicionar-novo">
                     <i class="fas fa-plus"></i> Adicionar Nova Tarefa
                 </a>
             </div>
 
-            <section class="tasks-section">
-                <div class="filter-controls" id="filter-controls">
-                    <button class="filter-btn active" data-filter="all">Todas</button>
-                    <button class="filter-btn" data-filter="pending">Pendentes</button>
-                    <button class="filter-btn" data-filter="completed">Concluídas</button>
+            <section class="secao-tarefas">
+                <div class="controles-filtro" id="controles-filtro">
+                    <button class="btn-filtro ativo" data-filtro="todas">Todas</button>
+                    <button class="btn-filtro" data-filtro="pendentes">Pendentes</button>
+                    <button class="btn-filtro" data-filtro="concluidas">Concluídas</button>
                 </div>
-                <ul id="task-list">
-                    </ul>
+                <ul id="lista-tarefas">
+                </ul>
             </section>
         </main>
     </div>
