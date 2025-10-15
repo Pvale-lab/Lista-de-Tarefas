@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tarefasFiltradasFinais.forEach(tarefa => {
                 // Cria um novo elemento de lista <li>.
                 const itemLista = document.createElement('li');
-                // Adiciona as novas classes CSS em português.
+                // Adiciona as classes CSS. 
                 itemLista.className = `item-tarefa ${tarefa.completed ? 'concluido' : ''} prioridade-${tarefa.priority}`;
                 // Adiciona um 'data attribute' com o ID da tarefa para facilitar encontrá-la depois.
                 itemLista.dataset.id = tarefa.id;
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
         
-        // Adiciona um "ouvinte" de eventos de clique na lista de tarefas.
+        // Adiciona um  evento de clique na lista de tarefas.
         listaTarefas.addEventListener('click', (e) => {
             // Procura pelo elemento com a nova classe '.item-tarefa'.
             const itemTarefa = e.target.closest('.item-tarefa');
